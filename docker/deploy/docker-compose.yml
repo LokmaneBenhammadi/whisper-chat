@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=whisper_db
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=w
+
+  backend:
+    build:
+      context: ../../backend
+    command: sh -c "python manage.py collectstatic --noinput && daphne -b 0.0.0.0 -p 8000 core.asgi:application"
+    expose:
+      - "8000"
+    depends_on:
+      - db
+    env_file:
+      - ../../backend/.env
+    volumes:
+      - django_static:/backend/staticfiles
+
+  frontend:
+    build:
+      context: ../../frontend
+    command: sh -c "npm install && npm run build && rm -rf /var/www/react/* && cp -r dist/* /var/www/react/"
+    volumes:
+      - react_build:/var/www/react
+
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - "80:8080"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - react_build:/var/www/react
+      - django_static:/var/www/static
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  react_build:
+  postgres_data:
+  django_static:
