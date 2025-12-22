@@ -1,0 +1,1 @@
+### A scalable real-time chat application built with Django, Django REST Framework, WebSockets, Redis, and React. Designed with a Docker-first, test-driven, production-ready architecture.2
