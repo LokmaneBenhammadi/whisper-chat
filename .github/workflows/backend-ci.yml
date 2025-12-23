@@ -6,6 +6,22 @@ on:
 jobs:
   test-backend:
     runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: whisper_db
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: w
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -18,8 +34,17 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r backend/requirements.txt
+          # Install psycopg2 if it's not in requirements.txt (needed for postgres)
+          pip install psycopg2-binary 
 
       - name: Run Django Tests
         working-directory: ./backend
+        env:
+          POSTGRES_DB: whisper_db
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: w
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          SECRET_KEY: "dummy-secret-key-for-tests" 
         run: |
           python manage.py test
