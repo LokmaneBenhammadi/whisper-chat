@@ -34,9 +34,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r backend/requirements.txt
-          # Install psycopg2 if it's not in requirements.txt (needed for postgres)
-          pip install psycopg2-binary 
-
       - name: Run Django Tests
         working-directory: ./backend
         env:
