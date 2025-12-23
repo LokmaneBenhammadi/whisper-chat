@@ -6,8 +6,6 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Note the trailing slash: "/api/status/"
-    // This matches the standard Django URL pattern
     const baseUrl = import.meta.env.VITE_API_URL || "";
     fetch(`${baseUrl}/api/status/`,{
           headers: { "X-Requested-With": "ReactApp" }}
