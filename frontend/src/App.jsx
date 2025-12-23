@@ -58,7 +58,7 @@ function App() {
 
       <h1 className="text-4xl text-white font-bold mb-8">
 
-        Frontend &lt;--&gt; Backend Connection
+        Whisper-Chat
 
       </h1>
 
