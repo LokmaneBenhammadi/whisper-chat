@@ -23,11 +23,11 @@ jobs:
             
             cd ~/whisper-chat
             git pull origin main
-            
-            cd docker/deploy
-            
+
             echo "$ENV_BACKEND" > backend/.env
             echo "$ENV_FRONTEND" > frontend/.env
+            
+            cd docker/deploy
             
             echo "Building and Starting Docker Containers..."
             sudo docker compose up --build -d
