@@ -34,14 +34,15 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r backend/requirements.txt
+          
       - name: Run Django Tests
         working-directory: ./backend
         env:
-          POSTGRES_DB: whisper_db
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: w
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
+          DB_NAME: whisper_db
+          DB_USER: root
+          DB_PASSWORD: w
+          DB_HOST: localhost
+          DB_PORT: 5432
           SECRET_KEY: "dummy-secret-key-for-tests" 
         run: |
           python manage.py test
