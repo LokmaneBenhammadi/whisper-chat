@@ -9,8 +9,9 @@ function App() {
     // Note the trailing slash: "/api/status/"
     // This matches the standard Django URL pattern
     const baseUrl = import.meta.env.VITE_API_URL || "";
-    fetch(`${baseUrl}/api/status/`)
-      .then((response) => {
+    fetch(`${baseUrl}/api/status/`,{
+          headers: { "X-Requested-With": "ReactApp" }}
+      ).then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP Error: ${response.status}`);
         }

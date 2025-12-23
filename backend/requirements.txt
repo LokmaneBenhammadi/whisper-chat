@@ -7,10 +7,8 @@ sqlparse==0.5.5
 
 #Database requirements
 psycopg2-binary>=2.9.9
+dj-database-url>=1.2.0
 
 #Channels requirements
 daphne>=4.1.0
 channels>=4.1.0
-
-#CORS headers requirements
-django-cors-headers>=4.3.1

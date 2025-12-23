@@ -1,0 +1,33 @@
+name: Deploy to Azure
+
+on:
+  workflow_call:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: azureuser
+          key: ${{ secrets.AZURE_VM_SSH_KEY }}
+          script: |
+            set -e 
+
+            echo "Starting Deployment..."
+            cd ~/whisper-chat
+            git pull origin main
+    
+            cd docker/deploy
+            
+            echo "${{ secrets.ENV_BACKEND }}" > backend/.env
+            echo "${{ secrets.ENV_FRONTEND }}" > frontend/.env
+
+            echo "Building and Starting Docker Containers..."
+            sudo docker compose up --build -d
+            
+            sudo docker image prune -f
+            
+            echo "Deployment Successful!"
