@@ -13,20 +13,22 @@ services:
 
   backend:
     build:
-      context: ../../backend
+      context: ../../
+      dockerfile: docker/deploy/backend/Dockerfile
     command: sh -c "python manage.py collectstatic --noinput && daphne -b 0.0.0.0 -p 8000 core.asgi:application"
     expose:
       - "8000"
     depends_on:
       - db
     env_file:
-      - ../../backend/.env
+      - ./backend/.env
     volumes:
-      - django_static:/backend/staticfiles
+      - django_static:/app/staticfiles
 
   frontend:
     build:
-      context: ../../frontend
+      context: ../../
+      dockerfile: docker/deploy/frontend/Dockerfile
     command: sh -c "npm install && npm run build && rm -rf /var/www/react/* && cp -r dist/* /var/www/react/"
     volumes:
       - react_build:/var/www/react

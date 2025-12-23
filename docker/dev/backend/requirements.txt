@@ -14,6 +14,3 @@ channels>=4.1.0
 
 #CORS headers requirements
 django-cors-headers>=4.3.1
-
-#Gunicorn for production server
-gunicorn>=20.1.0

@@ -23,7 +23,8 @@ services:
 
   backend:
     build:
-      context: ../../backend
+      context: ../../
+      dockerfile: docker/dev/backend/Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ../../backend:/backend
@@ -32,11 +33,12 @@ services:
     depends_on:
       - db
     env_file:
-      - ../../backend/.env
+      - ./backend/.env
 
   frontend:
     build:
-      context: ../../frontend
+      context: ../../
+      dockerfile: docker/dev/frontend/Dockerfile
     command: npm run dev -- --host 0.0.0.0
     volumes:
       - ../../frontend:/frontend
