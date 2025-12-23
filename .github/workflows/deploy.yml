@@ -9,22 +9,26 @@ jobs:
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.6
+        env:
+          ENV_BACKEND: ${{ secrets.ENV_BACKEND }}
+          ENV_FRONTEND: ${{ secrets.ENV_FRONTEND }}
         with:
           host: ${{ secrets.AZURE_VM_HOST }}
           username: azureuser
           key: ${{ secrets.AZURE_VM_SSH_KEY }}
+          envs: ENV_BACKEND,ENV_FRONTEND
           script: |
             set -e 
-
             echo "Starting Deployment..."
+            
             cd ~/whisper-chat
             git pull origin main
-    
+            
             cd docker/deploy
             
-            echo "${{ secrets.ENV_BACKEND }}" > backend/.env
-            echo "${{ secrets.ENV_FRONTEND }}" > frontend/.env
-
+            echo "$ENV_BACKEND" > backend/.env
+            echo "$ENV_FRONTEND" > frontend/.env
+            
             echo "Building and Starting Docker Containers..."
             sudo docker compose up --build -d
             
