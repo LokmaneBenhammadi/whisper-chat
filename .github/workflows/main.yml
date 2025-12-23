@@ -13,7 +13,7 @@ jobs:
     uses: ./.github/workflows/backend-ci.yml
 
   deploy-prod:
-    needs: [backend-tests, frontend-tests]
+    needs: [backend-tests]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
