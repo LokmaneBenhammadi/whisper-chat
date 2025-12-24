@@ -12,3 +12,6 @@ dj-database-url>=1.2.0
 #Channels requirements
 daphne>=4.1.0
 channels>=4.1.0
+
+pillow>=10.4.0
+twilio>=8.14.0

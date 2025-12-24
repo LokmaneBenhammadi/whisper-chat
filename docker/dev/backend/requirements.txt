@@ -14,3 +14,9 @@ channels>=4.1.0
 
 #CORS headers requirements
 django-cors-headers>=4.3.1
+
+pillow>=10.4.0
+
+djangorestframework-simplejwt>=5.3.2
+
+twilio>=8.14.0
